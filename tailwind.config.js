@@ -14,6 +14,13 @@ export default {
         "background-dark": "#101622",
         "background-light-alt": "#f7f6f8",
         "background-dark-alt": "#191022",
+        "pastel-lavender": "#e9d5ff",
+        "pastel-mint": "#d1fae5",
+        "pastel-yellow": "#fef9c3",
+        "pastel-pink": "#fce7f3",
+        "pastel-blue": "#dbeafe",
+        "pastel-coral": "#fda4af",
+        "pastel-peach": "#fff3e0",
       },
       fontFamily: {
         "display": ["Plus Jakarta Sans", "sans-serif"],
