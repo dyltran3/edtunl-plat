@@ -19,7 +19,7 @@ const OnboardingSuccess: React.FC = () => {
               <span className="material-symbols-outlined text-xl">school</span>
             </div>
             <h2 className="text-lg font-extrabold leading-tight tracking-tight">
-              GenZ Edu
+              EdTunl Platform
             </h2>
           </div>
           <div className="flex items-center gap-8">
@@ -189,7 +189,7 @@ const OnboardingSuccess: React.FC = () => {
 
         {/* Minimal Footer */}
         <footer className="px-8 py-6 text-center text-sm text-gray-400 border-t border-gray-100 dark:border-gray-900 bg-white/30 dark:bg-background-dark/30 backdrop-blur-sm">
-          © 2024 GenZ Edu • Made with 💖 for the next generation
+          © 2024 EdTunl Platform • Made with 💖 for the next generation
         </footer>
       </div>
     </div>

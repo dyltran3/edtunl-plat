@@ -94,7 +94,7 @@ const SignIn: React.FC = () => {
             <span className="material-symbols-outlined text-2xl">auto_awesome</span>
           </div>
           <h2 className="text-[#141118] dark:text-white text-xl font-bold leading-tight tracking-[-0.015em]">
-            GenZ Portal
+            EdTunl Portal
           </h2>
         </motion.div>
         <div className="flex items-center gap-8">
@@ -236,7 +236,7 @@ const SignIn: React.FC = () => {
               New to the squad?
               <button
                 className="text-primary-purple font-bold hover:underline ml-1 cursor-pointer"
-                onClick={() => navigate('/interests')}
+                onClick={() => navigate('/')}
               >
                 Create an account
               </button>
@@ -247,7 +247,7 @@ const SignIn: React.FC = () => {
 
       <footer className="py-8 px-10 text-center">
         <p className="text-[#756189] dark:text-white/40 text-xs font-medium">
-          © 2024 GenZ Portal. Built for the next generation of thinkers.
+          © 2024 EdTunl Platform. Built for the next generation of thinkers.
         </p>
       </footer>
     </div>

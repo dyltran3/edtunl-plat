@@ -4,6 +4,8 @@ import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
 import { twMerge } from 'tailwind-merge';
 
+import { supabase } from '../lib/supabase';
+
 const interestsList = [
   { id: 'uiux', label: 'UI/UX', icon: 'palette' },
   { id: 'coding', label: 'Coding', icon: 'terminal' },
@@ -17,8 +19,9 @@ const interestsList = [
 
 const InterestSelection: React.FC = () => {
   const navigate = useNavigate();
-  const [selected, setSelected] = useState<string[]>(['uiux', 'ai']); // Default selections matching original static
+  const [selected, setSelected] = useState<string[]>(['uiux', 'ai']);
   const [goal, setGoal] = useState<string>('quick');
+  const [loading, setLoading] = useState(false);
 
   const toggleInterest = (id: string) => {
     setSelected((prev) =>
@@ -26,15 +29,39 @@ const InterestSelection: React.FC = () => {
     );
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (selected.length < 3) {
       toast.error('Please select at least 3 interests!');
       return;
     }
-    localStorage.setItem('user_interests', JSON.stringify(selected));
-    localStorage.setItem('user_goal', goal);
-    toast.success('Awesome choices!');
-    setTimeout(() => navigate('/success'), 800);
+
+    setLoading(true);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      if (session?.user) {
+        const { error } = await supabase
+          .from('profiles')
+          .upsert({
+            id: session.user.id,
+            interests: selected,
+            daily_goal: goal,
+            updated_at: new Date().toISOString(),
+          });
+        
+        if (error) throw error;
+      } else {
+        localStorage.setItem('user_interests', JSON.stringify(selected));
+        localStorage.setItem('user_goal', goal);
+      }
+
+      toast.success('Preferences saved!');
+      setTimeout(() => navigate('/success'), 800);
+    } catch (error: any) {
+      toast.error(error.message || 'Failed to save preferences');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -91,7 +118,7 @@ const InterestSelection: React.FC = () => {
             <span className="material-symbols-outlined">auto_awesome</span>
           </div>
           <h1 className="text-2xl font-extrabold text-[#111318] dark:text-white tracking-tight">
-            GenZ Learning
+            EdTunl Platform
           </h1>
         </div>
         <button
@@ -241,10 +268,17 @@ const InterestSelection: React.FC = () => {
             </button>
             <button
               onClick={handleNext}
-              className="glow-button flex items-center gap-2 min-w-[160px] cursor-pointer justify-center rounded-full h-14 px-8 bg-primary text-white text-lg font-extrabold leading-normal tracking-wide shadow-xl shadow-primary/30 hover:shadow-primary/50 transition-all"
+              disabled={loading}
+              className="glow-button flex items-center gap-2 min-w-[160px] cursor-pointer justify-center rounded-full h-14 px-8 bg-primary text-white text-lg font-extrabold leading-normal tracking-wide shadow-xl shadow-primary/30 hover:shadow-primary/50 transition-all disabled:opacity-70"
             >
-              <span>Next step</span>
-              <span className="material-symbols-outlined">arrow_forward</span>
+              {loading ? (
+                <div className="size-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+              ) : (
+                <>
+                  <span>Next step</span>
+                  <span className="material-symbols-outlined">arrow_forward</span>
+                </>
+              )}
             </button>
           </div>
         </motion.div>

@@ -4,18 +4,39 @@ import { motion } from 'framer-motion';
 import { curriculumData } from '../data/curriculum';
 import type { CurriculumItem } from '../data/curriculum';
 import { twMerge } from 'tailwind-merge';
+import { supabase } from '../lib/supabase';
 
 const CourseViewer: React.FC = () => {
   const { courseId } = useParams<{ courseId: string }>();
   const navigate = useNavigate();
   const [course, setCourse] = useState<CurriculumItem | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const found = curriculumData.find((c) => c.id === courseId);
-    if (found) {
-      setCourse(found);
-    }
-  }, [courseId]);
+    const checkAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        navigate('/login');
+        return;
+      }
+
+      const found = curriculumData.find((c) => c.id === courseId);
+      if (found) {
+        setCourse(found);
+      }
+      setLoading(false);
+    };
+
+    checkAuth();
+  }, [courseId, navigate]);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
 
   if (!course) {
     return (

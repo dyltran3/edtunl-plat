@@ -18,7 +18,7 @@ const LearningHub: React.FC = () => {
                 <path clipRule="evenodd" d="M47.2426 24L24 47.2426L0.757355 24L24 0.757355L47.2426 24ZM12.2426 21H35.7574L24 9.24264L12.2426 21Z" fill="currentColor" fillRule="evenodd"></path>
               </svg>
             </div>
-            <h2 className="text-xl font-extrabold tracking-tight">GenZ Hub</h2>
+            <h2 className="text-xl font-extrabold tracking-tight">EdTunl Hub</h2>
           </div>
           <nav className="hidden md:flex items-center gap-10">
             <a href="#" className="text-[#111418] dark:text-gray-200 text-sm font-semibold hover:text-[#308ce8] transition-colors">Courses</a>
@@ -221,7 +221,7 @@ const LearningHub: React.FC = () => {
                     <path clipRule="evenodd" d="M47.2426 24L24 47.2426L0.757355 24L24 0.757355L47.2426 24ZM12.2426 21H35.7574L24 9.24264L12.2426 21Z" fill="currentColor" fillRule="evenodd"></path>
                   </svg>
                 </div>
-                <h2 className="text-lg font-extrabold tracking-tight">GenZ Hub</h2>
+                <h2 className="text-lg font-extrabold tracking-tight">EdTunl Hub</h2>
               </div>
               <p className="text-sm text-gray-500 font-medium">Empowering the next generation of digital creators and entrepreneurs.</p>
             </div>
@@ -259,7 +259,7 @@ const LearningHub: React.FC = () => {
             </div>
           </div>
           <div className="max-w-[1200px] mx-auto w-full mt-12 pt-8 border-t border-gray-200 dark:border-gray-800 flex justify-between items-center text-xs font-bold text-gray-400">
-            <p>© 2024 GenZ Learning Hub. All rights reserved.</p>
+            <p>© 2024 EdTunl Platform. All rights reserved.</p>
             <p>Made with ♥ for the future.</p>
           </div>
         </footer>

@@ -11,7 +11,7 @@ const Leaderboard: React.FC = () => {
               <div className="size-10 bg-[#f4256a] rounded-xl flex items-center justify-center text-white">
                 <span className="material-symbols-outlined text-2xl">school</span>
               </div>
-              <h2 className="text-[#181113] dark:text-white text-xl font-bold leading-tight tracking-tight">GenZ Study</h2>
+              <h2 className="text-[#181113] dark:text-white text-xl font-bold leading-tight tracking-tight">EdTunl Study</h2>
             </div>
             <nav className="hidden lg:flex items-center gap-8">
               <a href="#" className="text-[#181113] dark:text-white/80 text-sm font-semibold hover:text-[#f4256a] transition-colors">Dashboard</a>
@@ -229,7 +229,7 @@ const Leaderboard: React.FC = () => {
         <div className="flex justify-center items-center gap-1 text-sm font-bold text-gray-500 mb-2">
           MADE WITH <span className="material-symbols-outlined text-[#f4256a] text-sm">favorite</span> FOR THE GRIND
         </div>
-        <p className="text-xs text-gray-400">© 2024 GenZ Study. Stay focused, stay winning.</p>
+        <p className="text-xs text-gray-400">© 2024 EdTunl Platform. Stay focused, stay winning.</p>
       </footer>
     </div>
   );

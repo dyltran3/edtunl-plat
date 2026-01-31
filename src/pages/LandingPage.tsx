@@ -1,15 +1,45 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
+import { supabase } from '../lib/supabase';
+import toast from 'react-hot-toast';
 
 const LandingPage: React.FC = () => {
   const navigate = useNavigate();
   const { register, handleSubmit, formState: { errors } } = useForm();
+  const [loading, setLoading] = useState(false);
 
-  const onSubmit = (data: any) => {
-    localStorage.setItem('user_signup_data', JSON.stringify(data));
-    navigate('/interests');
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) {
+        navigate('/interests');
+      }
+    });
+  }, [navigate]);
+
+  const onSubmit = async (data: any) => {
+    setLoading(true);
+    try {
+      const { error } = await supabase.auth.signUp({
+        email: data.email,
+        password: data.password,
+        options: {
+          data: {
+            full_name: data.fullName,
+          }
+        }
+      });
+
+      if (error) throw error;
+
+      toast.success("Account created! Let's pick your interests.");
+      navigate('/interests');
+    } catch (error: any) {
+      toast.error(error.message || "Failed to sign up");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const containerVariants = {
@@ -46,7 +76,7 @@ const LandingPage: React.FC = () => {
             <span className="material-symbols-outlined">auto_stories</span>
           </div>
           <h2 className="text-[#111318] dark:text-white text-xl font-extrabold tracking-tight">
-            GenZ Learning
+            EdTunl Platform
           </h2>
         </div>
         <button
@@ -141,7 +171,7 @@ const LandingPage: React.FC = () => {
 
               <motion.div variants={itemVariants} className="mb-10 text-center lg:text-left">
                 <h1 className="text-3xl lg:text-5xl font-black text-[#111318] dark:text-white leading-tight mb-4 tracking-tight">
-                  Join the GenZ <br />
+                  Join the EdTunl <br />
                   <span className="text-primary bg-clip-text text-transparent bg-gradient-to-r from-primary to-pink-500">Learning Squad</span>
                 </h1>
                 <p className="text-[#616f89] dark:text-gray-400 text-lg font-medium">
@@ -204,37 +234,23 @@ const LandingPage: React.FC = () => {
                   </div>
                 </motion.div>
 
-                <motion.div variants={itemVariants}>
-                  <label className="block text-[#111318] dark:text-white text-sm font-bold mb-2 ml-1">
-                    Your Current Grade
-                  </label>
-                  <div className="flex flex-wrap gap-3">
-                    {['Grade 10', 'Grade 11', 'Grade 12'].map((grade) => (
-                      <label key={grade} className="cursor-pointer">
-                        <input
-                          {...register('grade', { required: true })}
-                          className="peer hidden"
-                          value={grade}
-                          type="radio"
-                          defaultChecked={grade === 'Grade 10'}
-                        />
-                        <div className="px-6 py-2.5 rounded-full border border-[#dbdfe6] dark:border-white/10 bg-white/30 dark:bg-white/5 peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary transition-all text-sm font-bold shadow-sm">
-                          {grade}
-                        </div>
-                      </label>
-                    ))}
-                  </div>
-                </motion.div>
 
                 <motion.div variants={itemVariants} className="pt-4">
                   <button
-                    className="group relative w-full h-14 bg-primary text-white rounded-full font-extrabold text-lg shadow-xl shadow-primary/30 hover:shadow-primary/50 hover:scale-[1.02] active:scale-95 transition-all duration-300 flex items-center justify-center gap-2 overflow-hidden"
+                    disabled={loading}
+                    className="group relative w-full h-14 bg-primary text-white rounded-full font-extrabold text-lg shadow-xl shadow-primary/30 hover:shadow-primary/50 hover:scale-[1.02] active:scale-95 transition-all duration-300 flex items-center justify-center gap-2 overflow-hidden disabled:opacity-70"
                     type="submit"
                   >
-                    <span className="relative z-10">Start Your Journey</span>
-                    <span className="material-symbols-outlined relative z-10 group-hover:translate-x-1 transition-transform">
-                      arrow_forward
-                    </span>
+                    {loading ? (
+                      <div className="size-6 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                    ) : (
+                      <>
+                        <span className="relative z-10">Start Your Journey</span>
+                        <span className="material-symbols-outlined relative z-10 group-hover:translate-x-1 transition-transform">
+                          arrow_forward
+                        </span>
+                      </>
+                    )}
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
                   </button>
                   <p className="mt-6 text-center text-xs text-[#616f89] dark:text-gray-400 font-medium tracking-wide">
@@ -256,7 +272,7 @@ const LandingPage: React.FC = () => {
             </a>
           ))}
         </div>
-        <p className="opacity-60 italic">© 2024 GenZ Learning Portal. Keep exploring, keep growing.</p>
+        <p className="opacity-60 italic">© 2024 EdTunl Platform. Keep exploring, keep growing.</p>
       </footer>
     </div>
   );
